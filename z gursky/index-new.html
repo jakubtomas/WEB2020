@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0 auto;
+            background-color: #eeffdd;
+
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            margin: 0; /*Add this*/
+        }
+
+        /* Style the header */
+        header {
+
+            color: white;
+        }
+
+        #header_image {
+            background-image: url("top_bacground.gif");
+
+        }
+
+        #header_image img {
+            max-width: 100%;
+        }
+
+        #language_flags {
+            display: inline;
+        }
+
+        #date_panel {
+            display: inline;
+        }
+        /* Container for flexboxes */
+        section {
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        #info_banner {
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid black
+        }
+
+        #main_content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main_content h1 {
+            background-color: green;
+            display: block;
+            color: white;
+            text-transform: uppercase;
+            margin: 10px;
+        }
+
+        #main_content time {
+            display: inline;
+            color: black;
+            margin-left: 10px;
+            text-align: center;
+
+        }
+
+        .newsflash a {
+            display: inline-block;
+            width: 120px;
+            margin-top: 20px;
+        }
+
+        .newsflash .content {
+            display: inline-block;
+            margin-left: 10px;
+            width: 80%;
+        }
+
+        /* Style the navigation menu */
+        aside#right_panel nav {
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+
+            padding: 20px;
+            min-height: 100%;
+        }
+
+        aside#right_panel {
+            border-left: 1px solid black;
+        }
+
+        #right_panel h2 {
+            background-color: green;
+            display: block;
+            color: white;
+            text-transform: uppercase;
+            font-size: 19px;
+            margin-left: 10px;
+            margin-right: 10px;
+
+
+        }
+
+        aside#right_panel nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        aside#right_panel nav ul a {
+
+            font-size: 150%;
+            text-decoration: none;
+            color: #336633;
+            padding: 3px 0;
+        }
+
+
+
+        .linkRightPanel {
+            margin: 10px 0;
+        }
+
+        /* Style the content */
+        article {
+
+            padding: 10px;
+
+        }
+
+        /* Style the footer */
+        footer {
+            border-top: 1px solid black;
+            padding: 7px;
+            text-align: center;
+            color: black;
+        }
+
+        /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+        @media (max-width: 600px) {
+            section {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .newsflash .content {
+                border-bottom: 1px solid black;
+            }
+
+            aside#right_panel {
+                border-top: 1px solid black;
+            }
+        }
+
+
+        .header {
+            background-color: #1e8b36;
+            box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, .1);
+            display: inline-block;
+            width: 100%;
+            z-index: 3;
+        }
+
+        .header ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+            background-color: #1e8b36;
+        }
+
+        .header li a {
+            display: block;
+            padding: 15px 20px;
+            border-right: 1px solid #0b0b0b;
+            font-size: 17px;
+            text-decoration: none;
+            color: #0b0b0b;
+            font-weight: 600;
+        }
+
+        .header li a:hover,
+        .header .menu-btn:hover {
+            background-color: #eeffdd;
+        }
+
+        .header .logo {
+            display: block;
+            float: left;
+            font-size: 2em;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        /* menu */
+
+        .header .menu {
+            clear: both;
+            max-height: 0;
+            transition: max-height .2s ease-out;
+        }
+
+        /* menu icon */
+
+        .header .menu-icon {
+            cursor: pointer;
+            display: inline-block;
+            float: right;
+            padding: 28px 20px;
+            position: relative;
+            user-select: none;
+        }
+
+        .header .menu-icon .navicon {
+            background: #333;
+            display: block;
+            height: 2px;
+            position: relative;
+            transition: background .2s ease-out;
+            width: 18px;
+        }
+
+        .header .menu-icon .navicon:before,
+        .header .menu-icon .navicon:after {
+            background: #333;
+            content: '';
+            display: block;
+            height: 100%;
+            position: absolute;
+            transition: all .2s ease-out;
+            width: 100%;
+        }
+
+        .header .menu-icon .navicon:before {
+            top: 5px;
+        }
+
+        .header .menu-icon .navicon:after {
+            top: -5px;
+        }
+
+        /* menu btn */
+
+        .header .menu-btn {
+            display: none;
+        }
+
+        .header .menu-btn:checked ~ .menu {
+            max-height: 100%;
+        }
+
+        .header .menu-btn:checked ~ .menu-icon .navicon {
+            background: transparent;
+        }
+
+        .header .menu-btn:checked ~ .menu-icon .navicon:before {
+            transform: rotate(-45deg);
+        }
+
+        .header .menu-btn:checked ~ .menu-icon .navicon:after {
+            transform: rotate(45deg);
+        }
+
+        .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+        .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+            top: 0;
+        }
+
+        /* 48em = 768px */
+
+        @media (min-width: 48em) {
+            .header li {
+                float: left;
+            }
+
+            .header li a {
+                padding: 20px 30px;
+            }
+
+            .header .menu {
+                clear: none;
+                float: right;
+                max-height: none;
+            }
+
+            .header .menu-icon {
+                display: none;
+            }
+        }
+
+
+    </style>
+    <title>CSS Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!--
+
+<header>
+    <div id="header_image">
+
+        <td vAlign="top" noWrap align="right" width="100%" background="top_bacground.gif">
+            <a href="http://www.transylwahnja.eu"><img height="91" src="img/title.jpg" width="477" align="middle"
+                                                       border="0" alt="picture"></a>
+        </td>
+    </div>
+</header>
+-->
+
+<header class="header">
+    <div id="header_image">
+
+        <td vAlign="top" noWrap align="right" width="100%" background="top_bacground.gif">
+            <a href="http://www.transylwahnja.eu"><img height="91" src="img/title.jpg" width="477" align="middle"
+                                                       border="0" alt="picture"></a>
+        </td>
+    </div>
+    <!--
+        <a href="" class="logo">CSS Nav</a>
+    -->
+    <input class="menu-btn" type="checkbox" id="menu-btn"/>
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+
+    <ul class="menu">
+        <li><a href="">O nás</a></li>
+        <li><a href="">Biofarma</a></li>
+        <li><a href="">Kompostovanie</a></li>
+        <li><a href="">Zvieratá / Shirské kone</a></li>
+        <li><a href="">Produkty</a></li>
+        <li><a href="">Turistika</a></li>
+        <li><a href="">Aktivity</a></li>
+        <li><a href="">Brigáda / Práca</a></li>
+        <li><a href="">Médiá o nás</a></li>
+        <li><a href="">Fotogaléria</a></li>
+        <li><a href="">Ako nás nájdete</a></li>
+        <li><a href="">Kontakt</a></li>
+
+    </ul>
+
+    <!--<div id="language_flags">-->
+        <!--<ul>-->
+            <!--<li>-->
+                <!--<a href="./de/"><img src="deutsch.gif" width="38" height="26" alt="deutche sprache"></a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="/"><img src="slovak.gif" width="38" height="26" alt="slovenský jazyk"></a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <!--<div id="date_panel">-->
+        <!--<script>-->
+            <!--var mesiace = new Array("január", "február", "marec", "apríl", "máj", "jún", "júl", "august", "september", "október", "november", "december");-->
+            <!--var dni_v_tyzdni = new Array("nedeľa", "pondelok", "utorok", "streda", "štvrtok", "piatok", "sobota");-->
+            <!--var dnes = new Date();-->
+            <!--var el = document.getElementById("date_panel");-->
+            <!--el.textContent = "Dnes je " + dni_v_tyzdni[dnes.getDay()] + " " + dnes.getDate() + "." + mesiace[dnes.getMonth()] + " " + dnes.getFullYear();-->
+        <!--</script>-->
+    <!--</div>-->
+
+</header>
+
+
+<section>
+
+    <main>
+        <aside id="info_banner">
+            Internetová stránka Ranču Transylwahnja sprístupňuje informácie o chove koní, komposte, ekologickom
+            poľnohospodárstve a výrobe domácich potravín rodiny Pipovcov. Uplatňuje princípy <a
+                href="http://www.agrowebcee.net" target="_blank"><b>AgroWeb Networku</b></a>, ktorého cieľom je výmena
+            skúseností medzi agro-ekologicky zameranými ľuďmi, organizáciami a farmami produkujúcimi biopotraviny.
+        </aside>
+
+
+        <section id="main_content">
+            <h1>Čo nového na ranči</h1>
+
+
+            <article class="newsflash">
+                <a href="javascript:popImage('foto/2019april.jpg',':: RANČ TRANSYLWAHNJA :: ','');">
+                    <img src="foto/2019april_m.jpg" alt="Západ slnka">
+                </a>
+
+                <div class="content">
+                    <time datetime="2019-04-01">apríl 2019</time>
+                    <h2>Nesnívaj o svojom živote, ale ži svoj sen</h2>
+                    <p>Nový úžasný kôň, ktorého sme si osvojili priamo z aktívneho mezinárodného
+                        Military sportu. Či krása v drezúre, prechádzky vo výške 170cm alebo
+                        vytrvalosť v teréne, to je Perzeus.
+                        Teraz, po spoľahlivo odpracovaných 18 rokoch si môže užívať konský raj na
+                        ranči. Ďalšie fotky nájdete v galérii.
+                    </p>
+                </div>
+            </article>
+
+            <article class="newsflash">
+                <a href="javascript:popImage('foto/kone-perseus1.jpg',':: RANČ TRANSYLWAHNJA :: ','');">
+                    <img src="foto/kone-perseus1_m.jpg" alt="Perzeus">
+                </a>
+                <div class="content">
+                    <time datetime="2019-04-01">apríl 2019</time>
+                    <h2>Na ranč prichádza Perzeus</h2>
+                    <p>Nový úžasný kôň, ktorého sme si osvojili priamo z aktívneho mezinárodného
+                        Military sportu. Či krása v drezúre, prechádzky vo výške 170cm alebo
+                        vytrvalosť v teréne, to je Perzeus.
+                        Teraz, po spoľahlivo odpracovaných 18 rokoch si môže užívať konský raj na
+                        ranči. Ďalšie fotky nájdete v galérii.
+                    </p>
+                </div>
+            </article>
+
+            <article class="newsflash">
+                <a href="javascript:popImage('foto/2019kravicka.jpg',':: RANČ TRANSYLWAHNJA :: ','');">
+                    <img src="foto/2019kravicka_m.jpg" alt="Kravička">
+                </a>
+
+                <div class="content">
+
+                    <time datetime="2019-04-01">apríl 2019</time>
+                    <h2>Obnovujeme aj mliečnu produkciu</h2>
+                    <p>Na ranči sme privítali Jersey kravičku Barboru.</p>
+                </div>
+            </article>
+
+            <article class="newsflash">
+                <a href="javascript:popImage('foto/2019kravicka.jpg',':: RANČ TRANSYLWAHNJA :: ','');">
+                    <img src="foto/2019kravicka_m.jpg" alt="Kravička">
+                </a>
+
+                <div class="content">
+                    <time datetime="2019-04-01">apríl 2019</time>
+                    <h2>Obnovujeme aj mliečnu produkciu</h2>
+                    <p>Na ranči sme privítali Jersey kravičku Barboru.</p>
+
+                </div>
+
+            </article>
+        </section>
+
+    </main>
+
+
+    <aside id="right_panel">
+
+        <h2>STRATEGICKÍ PARTNERI</h2>
+
+        <nav>
+            <ul>
+                <li class="linkRightPanel"><a href="http://www.ffmm.sk">Mašekov Mlyn, Vráble</a></li>
+                <li class="linkRightPanel"><a href="http://www.biospotrebitel.sk">Biospotrebiteľ</a></li>
+                <li class="linkRightPanel"><a href="http://www.ekoprodukt.sk">Ekoprodukt</a></li>
+                <li class="linkRightPanel"><a href="http://www.anastasia.sk">Anastásia</a></li>
+                <li class="linkRightPanel"><a href="http://www.greenpeace.sk">Greenpeace</a></li>
+                <li class="linkRightPanel"><a href="http://www.biomed.sk">Biomed</a></li>
+                <li class="linkRightPanel"><a href="http://www.bread.babinovo.sk">Breadfriends</a></li>
+                <li class="linkRightPanel"><a href="http://www.trotting.sk">Trotting Slovakia</a></li>
+                <li class="linkRightPanel"><a href="http://www.farmatuska.sk">Farma Tuška</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+
+</section>
+
+<footer>
+    &copy; <a href="http://www.transylwahnja.eu">www.transylwahnja.eu</a>, 2006-2007
+
+</footer>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+</body>
+</html>
